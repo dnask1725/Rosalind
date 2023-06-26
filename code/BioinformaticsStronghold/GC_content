@@ -1,0 +1,41 @@
+#The GC-content of a DNA string is given by the percentage of symbols in the string that are 'C' or 'G'. For example, the GC-content of "AGCTATAG" is 37.5%. Note that the reverse complement of any DNA string has the same GC-content.
+#Link : https://rosalind.info/problems/gc/
+
+def readFile(filePath):
+    with open(filePath, 'r') as f:
+        return [l.strip() for l in f.readlines()]
+    
+def gc_content(seq):
+    return round((seq.count("G")+seq.count("C")/len(seq) *100),6)
+#---------------------------------------------------------------------------    
+# Read data from the FASTA file
+def readFile(filePath):
+    with open(filePath, 'r') as f:
+        return [l.strip() for l in f.readlines()]
+''''Storing file contents in a list'''
+FASTAFile = readFile("test_data/gc_content.txt")
+''''Dictionary for labels plus data'''
+FASTADict = {}
+''''String for holding current label'''
+FASTALabel = ""
+print(FASTAFile)
+#---------------------------------------------------------------------------  
+# Clean and Prepare the Data. 
+''''Converting Fasta/List file data into a dictionary'''
+for line in FASTAFile:
+    if '>' in line:
+        FASTALabel = line
+        FASTADict[FASTALabel] = ""
+    else:
+        FASTADict[FASTALabel] += line
+print(FASTADict)            #this will give "key : value" pairs 
+#---------------------------------------------------------------------------  
+    
+RESULT_Dict = {key:gc_content(value) for (key,value) in FASTADict.items()}   
+print(RESULT_Dict)
+#---------------------------------------------------------------------------  
+#Maximum value
+MaxGCKey = max(RESULT_Dict, key=RESULT_Dict.get)
+
+
+
