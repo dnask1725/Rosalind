@@ -63,4 +63,3 @@ n = 17  # Number of homozygous recessive individuals
 
 probability = calc_prob_dominant(k, m, n)
 print("Probability of producing an individual with a dominant allele:", probability)
-
