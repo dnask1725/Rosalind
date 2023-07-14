@@ -10,38 +10,57 @@
 
 #Return: The probability that two randomly selected mating organisms will produce an individual possessing a dominant allele (and thus displaying the dominant phenotype). Assume that any two organisms can mate.
 
-def mendel_first_law(k,m,n):
-    total = k + m + n                         #total
+def calc_prob_dominant(k, m, n):
+    total = k + m + n
     
-    prob_k = k / total
-    prob_m = m / total
-    prob_n = n / total
-
-#Probability of different mating combinations:
-#Case-1: Both Homozygous Dominant (k * k)
-    prob_dominant = k * (k-1/total-1)
-
-#Case-2: One Homozygous Dominant and other heterozygous (k * m)
-    prob_dominant += k * (m-1/total-1)
-    prob_dominant += m * (k-1/total-1)
-
-#Case-3: One Homozygous recessive and other heterozygous (n * m)
-    prob_dominant += prob_m * (n / (total - 1)) * 0.5  # One dominant allele (0.5 probability)
-    prob_dominant += prob_n * (m / (total - 1)) * 0.5  # One dominant allele (0.5 probability)
-
-#Case 4: Both organisms are heterozygous (m x m)
-    prob_dominant += prob_m * ((m - 1) / (total - 1)) * 0.75  # Both dominant alleles (0.75 probability - refer to the 3:1 dominant:recessive ratio)
-
-#Case 5: One organism is homozygous dominant and the other is homozygous recessive (k x n)
-    prob_dominant += prob_k * (n / (total - 1))
-    prob_dominant += prob_n * (k / (total - 1))
-
+    # Calculate the probability of each genotype
+    # AA + AA -> 1.0 (always dominant)
+    prob_AA_AA = (k / total) * ((k - 1) / (total - 1))
+    
+    # AA + Aa -> 1.0 (always dominant)
+    prob_AA_Aa = (k / total) * (m / (total - 1))
+    
+    # AA + aa -> 1.0 (always dominant)
+    prob_AA_aa = (k / total) * (n / (total - 1))
+    
+    # Aa + AA -> 1.0 (always dominant)
+    prob_Aa_AA = (m / total) * (k / (total - 1))
+    
+    # Aa + Aa -> 0.75 dominant, 0.25 recessive
+    prob_Aa_Aa = (m / total) * ((m - 1) / (total - 1)) * 0.75
+    
+    # Aa + aa -> 0.5 dominant, 0.5 recessive
+    prob_Aa_aa = (m / total) * (n / (total - 1)) * 0.5
+    
+    # aa + AA -> 1.0 (always dominant)
+    prob_aa_AA = (n / total) * (k / (total - 1))
+    
+    # aa + Aa -> 0.5 dominant, 0.5 recessive
+    prob_aa_Aa = (n / total) * (m / (total - 1)) * 0.5
+    
+    # aa + aa -> 0 (always recessive)
+    prob_aa_aa = (n / total) * ((n - 1) / (total - 1)) * 0
+    
+    # Sum up all the probabilities
+    prob_dominant = (
+        prob_AA_AA +
+        prob_AA_Aa +
+        prob_AA_aa +
+        prob_Aa_AA +
+        prob_Aa_Aa +
+        prob_Aa_aa +
+        prob_aa_AA +
+        prob_aa_Aa +
+        prob_aa_aa
+    )
+    
     return prob_dominant
 
-#Sample dataset :
-k=15
-m=28 
-n=17
+# Example usage
+k = 18  # Number of homozygous dominant individuals
+m = 30 # Number of heterozygous individuals
+n = 17  # Number of homozygous recessive individuals
 
-probability = mendel_first_law(k, m, n)
-print(probability)
+probability = calc_prob_dominant(k, m, n)
+print("Probability of producing an individual with a dominant allele:", probability)
+
