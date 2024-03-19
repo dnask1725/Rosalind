@@ -40,7 +40,6 @@ dataset = {
 
 reads = list(dataset.values())
 corrections = correct_reads(reads)
-
 # Output corrections
 for correction in corrections:
     print(correction)
