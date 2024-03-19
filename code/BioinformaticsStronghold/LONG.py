@@ -40,7 +40,6 @@ dataset = {
     'Rosalind_58': 'AGACCTGCCG',
     'Rosalind_59': 'GCCGGAATAC'
 }
-
 strings = list(dataset.values())
 result = shortest_superstring(strings)
 print(result)
